@@ -36,9 +36,9 @@ def get_permit(permit_id, related=False):
     if related:
         deferred_urls = get_deferred_urls(results)
 
-    for entity, url in deferred_urls.items():
-        r = requests.get(url + '?$format=json')
-        related = r.json()
-        results[entity] = related['d']
+        for entity, url in deferred_urls.items():
+            r = requests.get(url + '?$format=json')
+            related = r.json()
+            results[entity] = related['d']
 
     return results
