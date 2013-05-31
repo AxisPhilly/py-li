@@ -38,7 +38,7 @@ class DictUnicodeWriter(object):
         self.writer.writeheader()
 
 
-# Get the most 1,000 most recent permits
+# Get the 1,000 most recent permits
 permits = li.get_permits({})
 
 """
