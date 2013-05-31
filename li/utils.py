@@ -1,4 +1,5 @@
 import urllib
+import csv
 
 # API location info
 API_SERVER = 'http://services.phila.gov/'
@@ -28,8 +29,6 @@ def construct_url(doc_type, query_params, sql):
         f_query_params += '&$filter=' + urllib.quote_plus(sql)
 
     url = API_SERVER + API_BASE + doc_type + f_query_params
-
-    print url
 
     return url
 
