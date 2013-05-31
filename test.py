@@ -1,4 +1,5 @@
 import li
+from li.utils import LIException
 import unittest
 
 
@@ -7,10 +8,27 @@ class LIAPITestSequence(unittest.TestCase):
     def setup(self):
         pass
 
+    def test_for_doc_id_for_get_document(self):
+        """Functions that retrieve singular documents
+        require the ID parameter
+        """
+        with self.assertRaises(TypeError):
+            li.get_license({'a': 'b'})
+
+    def test_for_valid_document_type(self):
+        """Tests that the provided document type is
+        valid
+        """
+        with self.assertRaises(li.utils.LIException):
+            li.get_documents('foo')
+
+        with self.assertRaises(li.utils.LIException):
+            li.get_document('foo', '000000')
+
     def test_get_permits(self):
         """Returns the first 1,000 most recent permits
         """
-        results = li.get_documents('permits')
+        results = li.get_permits()
 
         self.assertEqual(type(results), list)
         self.assertEqual(len(results), 1000)
@@ -21,7 +39,7 @@ class LIAPITestSequence(unittest.TestCase):
     def test_get_locations(self):
         """Returns the first 1,000 locations, ordered by location_id
         """
-        results = li.get_documents('locations')
+        results = li.get_locations()
 
         self.assertEqual(type(results), list)
         self.assertEqual(len(results), 1000)
@@ -32,7 +50,7 @@ class LIAPITestSequence(unittest.TestCase):
     def test_get_licenses(self):
         """Returns the first 1,000 most recent licenses
         """
-        results = li.get_documents('licenses')
+        results = li.get_licenses()
 
         self.assertEqual(type(results), list)
         self.assertEqual(len(results), 1000)
@@ -43,7 +61,7 @@ class LIAPITestSequence(unittest.TestCase):
     def test_get_permit(self):
         """Returns details for a single permit
         """
-        results = li.get_document('permits', '333274')
+        results = li.get_permit('333274')
 
         self.assertEqual(type(results), dict)
         self.assertTrue('permit_type_code' in results.keys())
@@ -51,7 +69,7 @@ class LIAPITestSequence(unittest.TestCase):
     def test_get_location(self):
         """Returns details for a single location
         """
-        results = li.get_document('locations', '333710')
+        results = li.get_location('333710')
 
         self.assertEqual(type(results), dict)
         self.assertTrue('location_id' in results.keys())
@@ -59,7 +77,7 @@ class LIAPITestSequence(unittest.TestCase):
     def test_get_license(self):
         """Returns details for a single license
         """
-        results = li.get_document('licenses', '015020')
+        results = li.get_license('015020')
 
         self.assertEqual(type(results), dict)
         self.assertTrue('license_number' in results.keys())
@@ -68,7 +86,7 @@ class LIAPITestSequence(unittest.TestCase):
         """Returns details for a specific permit,
         with the related documents retrieved
         """
-        results = li.get_document('permits', '333274', related=True)
+        results = li.get_permit('333274', related=True)
 
         self.assertEqual(type(results), dict)
         self.assertTrue('permit_type_code' in results.keys())
@@ -80,7 +98,7 @@ class LIAPITestSequence(unittest.TestCase):
         """Returns details for a specific locations,
         with the related documents retrieved
         """
-        results = li.get_document('locations', '333710', related=True)
+        results = li.get_location('333710', related=True)
 
         self.assertEqual(type(results), dict)
         self.assertTrue('location_id' in results.keys())
@@ -97,7 +115,7 @@ class LIAPITestSequence(unittest.TestCase):
         """Returns details for a specific permit,
         with the related documents retrieved
         """
-        results = li.get_document('licenses', '015020', related=True)
+        results = li.get_license('015020', related=True)
 
         self.assertEqual(type(results), dict)
         self.assertTrue('license_number' in results.keys())
@@ -110,7 +128,7 @@ class LIAPITestSequence(unittest.TestCase):
         """
         sql = "application_type eq 'ZP_ZONING'"
 
-        results = li.get_documents('permits', sql=sql)
+        results = li.get_permits(sql=sql)
 
         for result in results:
             self.assertEqual(result['application_type'], 'ZP_ZONING')

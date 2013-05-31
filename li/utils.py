@@ -27,6 +27,17 @@ DOC_TYPES = [
 ]
 
 
+class LIException(Exception):
+    pass
+
+
+def check_doc_type(doc_type):
+    try:
+        DOC_TYPES.index(doc_type)
+    except ValueError:
+        raise LIException('The provided doc_type is invalid.')
+
+
 def construct_url(doc_type, query_params, sql):
     """Build a URL to query the API
     """
