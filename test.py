@@ -57,7 +57,7 @@ class LIAPITestSequence(unittest.TestCase):
         self.assertTrue('street_name' in results['locations'].keys())
         self.assertTrue('results' in results['buildingboardappeals'].keys())
 
-    def test_get_permit_with_related(self):
+    def test_get_location_with_related(self):
         """Returns details for a specific locations,
         with the related documents retrieved
         """
