@@ -39,7 +39,7 @@ class DictUnicodeWriter(object):
 
 
 # Get the 1,000 most recent permits
-permits = li.get_permits({})
+permits = li.get_documents('permits')
 
 """
 The related attributes are currently dicts that have
