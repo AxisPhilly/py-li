@@ -46,8 +46,8 @@ def get_document(doc_type, doc_id):
     """
     query_params = {}
 
-    if doc_type == 'permits':
-        doc_id = "\'" + str(doc_id) + "\'"
+    if doc_type != 'locations':
+        doc_id = "\'" + doc_id + "\'"
 
     url = construct_url("%s(%s)" % (doc_type, doc_id), query_params, None)
 
