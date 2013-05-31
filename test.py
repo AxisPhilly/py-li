@@ -21,7 +21,7 @@ class LIAPITestSequence(unittest.TestCase):
         results = li.get_permit(333274)
 
         self.assertEqual(type(results), dict)
-        self.assertTrue(results.has_key('permit_type_code'))
+        self.assertTrue('permit_type_code' in results.keys())
 
     def test_get_permit_with_related(self):
         """Returns details for a specific permit
@@ -29,10 +29,10 @@ class LIAPITestSequence(unittest.TestCase):
         results = li.get_permit(333274, related=True)
 
         self.assertEqual(type(results), dict)
-        self.assertTrue(results.has_key('permit_type_code'))
-        self.assertTrue(results['zoningboardappeals'].has_key('results'))
-        self.assertTrue(results['locations'].has_key('street_name'))
-        self.assertTrue(results['buildingboardappeals'].has_key('results'))
+        self.assertTrue('permit_type_code' in results.keys())
+        self.assertTrue('results' in results['zoningboardappeals'].keys())
+        self.assertTrue('street_name' in results['locations'].keys())
+        self.assertTrue('results' in results['buildingboardappeals'].keys())
 
 
 if __name__ == '__main__':
