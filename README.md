@@ -22,7 +22,7 @@ Developers
 
 Get the 1,000 most recent permits
 
-    li.get_documents('permits')
+    li.get_permits()
 
 See the examples folder and `test.py` for more usage examples.
 
