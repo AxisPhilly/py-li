@@ -1,4 +1,4 @@
 from . import utils
-from .api import get_permits, get_permit
+from .api import get_permits, get_permit, get_locations, get_location
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'

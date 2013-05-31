@@ -1,5 +1,5 @@
 import urllib
-import csv
+import requests
 
 # API location info
 API_SERVER = 'http://services.phila.gov/'
@@ -18,11 +18,49 @@ with the following entities 'locations', 'buildingboardappeals',
 DOC_TYPES = [
     'locations',
     'buildingboardappeals',
-    'zoningboardappeals'
+    'zoningboardappeals',
+    'lireviewboardappeals',
+    'appealhearings',
+    'cases',
+    'permits',
+    'licenses',
+    'violationdetails'
 ]
 
 
+def get_documents(doc_type, query_params, sql):
+    """Invoke a call to the API for multiple documents
+    """
+    url = construct_url(doc_type, query_params, sql)
+
+    r = requests.get(url)
+
+    results = r.json()
+    results = results['d']['results']
+
+    return results
+
+
+def get_document(doc_type, doc_id):
+    """Invoke a call to the API for a single document
+    """
+    query_params = {}
+
+    if doc_type == 'permits':
+        doc_id = "\'" + str(doc_id) + "\'"
+
+    url = construct_url("%s(%s)" % (doc_type, doc_id), query_params, None)
+
+    r = requests.get(url)
+    results = r.json()
+    results = results['d']
+
+    return results
+
+
 def construct_url(doc_type, query_params, sql):
+    """Build a URL to query the API
+    """
     f_query_params = construct_params(query_params)
 
     if sql:
