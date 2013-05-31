@@ -14,7 +14,7 @@ Developers
     cd py-landi
     mkvirtualenv venv
     pip install -r requirements.txt
-    python tests.py
+    python test.py
 
 ## Usage
 
