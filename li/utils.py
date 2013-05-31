@@ -1,5 +1,3 @@
-import json
-
 # API location info
 API_SERVER = 'http://services.phila.gov/'
 API_BASE = 'PhillyApi/Data/v0.7/Service.svc/'
