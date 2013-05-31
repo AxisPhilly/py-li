@@ -18,6 +18,10 @@ setup(
                  'Operating System :: OS Independent',
                  'Programming Language :: Python',
                  'Topic :: Software Development :: Libraries :: Python Modules',
-                ],
-
+    ],
+    install_requires=[
+        'argparse==1.2.1',
+        'requests==1.2.3',
+        'wsgiref==0.1.2'
+    ]
 )
