@@ -6,7 +6,7 @@ A thin Python wrapper for the City of Philadelphia [Licenses and Inspections API
 
 Users:
 
-`pip install py-landi`
+    pip install py-landi
 
 Developers
 
@@ -18,11 +18,11 @@ Developers
 
 ## Usage
 
-`import li`
+    import li
 
 Get the 1,000 most recent permits
 
-`li.get_permits({})`
+    li.get_permits({})
 
 See the examples folder and `test.py` for more usage examples.
 
