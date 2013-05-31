@@ -1,10 +1,12 @@
+import urllib
+
 # API location info
 API_SERVER = 'http://services.phila.gov/'
 API_BASE = 'PhillyApi/Data/v0.7/Service.svc/'
 
 # Default parameters applied to queries
 DEFAULT_PARAMS = {
-    'format': 'json'
+    '$format': 'json'
 }
 
 """Names of keys that contain URLs to more details for requests.
@@ -33,10 +35,15 @@ def construct_params(query_params):
     """
     params = '?'
 
-    query_params = apply_default_params(query_params)
+    modified_params = {}
 
-    for k, v in query_params.items():
-        params += '$' + k + '=' + v + '&'
+    # We need to put a '$' in front of every parameter name
+    for k, v in query_params.keys():
+        modified_params['$' + k] = v
+
+    modified_params = apply_default_params(modified_params)
+
+    params += urllib.urlencode(modified_params, True)
 
     return params
 
