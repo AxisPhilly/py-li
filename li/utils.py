@@ -21,10 +21,15 @@ DOC_TYPES = [
 ]
 
 
-def construct_url(doc_type, query_params):
+def construct_url(doc_type, query_params, sql):
     f_query_params = construct_params(query_params)
 
+    if sql:
+        f_query_params += '&$filter=' + urllib.quote_plus(sql)
+
     url = API_SERVER + API_BASE + doc_type + f_query_params
+
+    print url
 
     return url
 

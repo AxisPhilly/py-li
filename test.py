@@ -34,6 +34,22 @@ class LIAPITestSequence(unittest.TestCase):
         self.assertTrue('street_name' in results['locations'].keys())
         self.assertTrue('results' in results['buildingboardappeals'].keys())
 
+    def test_get_permits_with_raw_sql_filter(self):
+        """Allows the user to directly pass the $filter as
+        as a ODATA SQL statement rather than passing a dict
+        of params that is constructed into a ODATA SQL statement
+        """
+        sql = "application_type eq 'ZP_ZONING'"
+
+        results = li.get_permits({}, sql=sql)
+
+        all_zp_zoning = True
+
+        for result in results:
+            if result['application_type'] != 'ZP_ZONING':
+                all_zp_zoning = False
+
+        self.assertTrue(all_zp_zoning)
 
 if __name__ == '__main__':
     unittest.main()

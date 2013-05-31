@@ -2,18 +2,19 @@ import requests
 from .utils import *
 
 
-def get_permits(query_params):
+def get_permits(query_params, sql=None):
     """Get the most recent permits, limited
     to 1,000 results by the API.
     Returns :list: of :dict:s
 
     :param query_params: :dict: of URL query parameters
     """
-    url = construct_url('permits', query_params)
+    url = construct_url('permits', query_params, sql)
 
     r = requests.get(url)
 
     results = r.json()
+
     results = results['d']['results']
 
     return results
@@ -24,7 +25,7 @@ def get_permit(permit_id, related=False):
     """
     query_params = {}
 
-    url = construct_url("permits('%s')" % permit_id, query_params)
+    url = construct_url("permits('%s')" % permit_id, query_params, None)
 
     r = requests.get(url)
     results = r.json()
