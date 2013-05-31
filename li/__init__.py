@@ -1,4 +1,4 @@
 from . import utils
-from .api import get_permits, get_permit, get_locations, get_location, get_licenses, get_license
+from .api import get_document, get_documents
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'

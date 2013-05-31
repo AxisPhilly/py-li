@@ -1,5 +1,4 @@
 import urllib
-import requests
 
 # API location info
 API_SERVER = 'http://services.phila.gov/'
@@ -7,7 +6,7 @@ API_BASE = 'PhillyApi/Data/v0.7/Service.svc/'
 
 # Default parameters applied to queries
 DEFAULT_PARAMS = {
-    '$format': 'json'
+    '$format': 'json'  # Changing this to XML will break things
 }
 
 """Names of keys that contain URLs to more details for requests.
@@ -26,36 +25,6 @@ DOC_TYPES = [
     'licenses',
     'violationdetails'
 ]
-
-
-def get_documents(doc_type, query_params, sql):
-    """Invoke a call to the API for multiple documents
-    """
-    url = construct_url(doc_type, query_params, sql)
-
-    r = requests.get(url)
-
-    results = r.json()
-    results = results['d']['results']
-
-    return results
-
-
-def get_document(doc_type, doc_id):
-    """Invoke a call to the API for a single document
-    """
-    query_params = {}
-
-    if doc_type != 'locations':
-        doc_id = "\'" + doc_id + "\'"
-
-    url = construct_url("%s(%s)" % (doc_type, doc_id), query_params, None)
-
-    r = requests.get(url)
-    results = r.json()
-    results = results['d']
-
-    return results
 
 
 def construct_url(doc_type, query_params, sql):
