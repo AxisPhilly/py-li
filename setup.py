@@ -10,7 +10,7 @@ setup(
     author_email='casey@axisphilly.org',
     description="A Python wrapper for the City of Philadelphia L&I API",
     long_description="A Python wrapper for the City of Philadelphia Licenses & Inspections API",
-    url='git@github.com:AxisPhilly/py-li.git',
+    url='http://github.com/AxisPhilly/py-li',
     classifiers=[
                  'Intended Audience :: Developers',
                  'License :: OSI Approved :: MIT License',
