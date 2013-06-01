@@ -6,12 +6,12 @@ A thin Python wrapper for the City of Philadelphia [Licenses and Inspections API
 
 Users:
 
-    pip install py-landi
+    pip install py-li
 
 Developers
 
-    git clone git://github.com/axisphilly/py-landi.git
-    cd py-landi
+    git clone git://github.com/axisphilly/py-li.git
+    cd py-li
     mkvirtualenv venv
     pip install -r requirements.txt
     python test.py
