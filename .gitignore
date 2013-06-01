@@ -1,3 +1,5 @@
 venv
 *.pyc
 *.csv
+MANIFEST
+dist
