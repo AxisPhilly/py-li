@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='py-li',
-    version=li.__version__,
+    version='0.0.6',
     packages=['li'],
     license='MIT',
     author='Casey Thomas',
