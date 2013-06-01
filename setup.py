@@ -4,7 +4,7 @@ import li
 setup(
     name='py-li',
     version=li.__version__,
-    packages=['py-li'],
+    packages=['li'],
     license='MIT',
     author='Casey Thomas',
     author_email='casey@axisphilly.org',
