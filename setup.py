@@ -2,15 +2,15 @@ from distutils.core import setup
 import li
 
 setup(
-    name='py-landli',
+    name='py-li',
     version=li.__version__,
-    packages=['py-landi'],
+    packages=['py-li'],
     license='MIT',
     author='Casey Thomas',
     author_email='casey@axisphilly.org',
     description="A Python wrapper for the City of Philadelphia L&I API",
     long_description="A Python wrapper for the City of Philadelphia Licenses & Inspections API",
-    url='git@github.com:AxisPhilly/py-landi.git',
+    url='git@github.com:AxisPhilly/py-li.git',
     classifiers=[
                  'Intended Audience :: Developers',
                  'License :: OSI Approved :: MIT License',

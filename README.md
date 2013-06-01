@@ -1,4 +1,4 @@
-#py-landi
+#py-li
 
 A thin Python wrapper for the City of Philadelphia [Licenses and Inspections API](http://phlapi.com/licenseapi.html)
 
