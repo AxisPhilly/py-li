@@ -1,7 +1,8 @@
 import urllib
 import requests
 
-from .exceptions import LIException
+from .exceptions import LIException, DocTypeException
+from .exceptions import DocIDException, QueryParameterException
 from .settings import *
 
 
@@ -9,7 +10,7 @@ def validate_doc_type(doc_type):
     try:
         DOC_TYPES.index(doc_type)
     except ValueError:
-        raise LIException('The provided doc_type is invalid.')
+        raise DocTypeException
 
 
 def validate_doc_id(doc_id, doc_type):
@@ -32,9 +33,17 @@ def validate_doc_id(doc_id, doc_type):
         try:
             doc_id = "\'" + doc_id + "\'"
         except:
-            raise TypeError('The first parameter must be the document id and a string')
+            raise DocIDException
 
     return doc_id
+
+
+def validate_query_params(query_params):
+    for k in query_params.keys():
+        try:
+            SUPPORTED_PARAMS.index(k)
+        except ValueError:
+            raise QueryParameterException(k + ' is not a supported query parameter.')
 
 
 def invoke_api(url):
@@ -46,6 +55,8 @@ def invoke_api(url):
 
     if 'error' in results.keys():
         return {'error': results}
+    elif type(results['d']) is list:
+        return results['d']
     elif 'results' in results['d'].keys():
         return results['d']['results']
     else:
@@ -85,13 +96,13 @@ def construct_params(query_params):
     """
     params = '?'
 
-    modified_params = {}
+    full_params = apply_default_params(query_params)
 
     # We need to put a '$' in front of every parameter name
-    for k, v in query_params.keys():
-        modified_params['$' + k] = v
+    modified_params = {}
 
-    modified_params = apply_default_params(modified_params)
+    for k, v in full_params.items():
+        modified_params['$' + k] = v
 
     params += urllib.urlencode(modified_params, True)
 

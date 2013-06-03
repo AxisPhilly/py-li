@@ -41,6 +41,8 @@ def get_documents(doc_type, query_params={}, sql=None):
     """
     validate_doc_type(doc_type)
 
+    validate_query_params(query_params)
+
     url = construct_url(doc_type, query_params, sql)
 
     results = invoke_api(url)

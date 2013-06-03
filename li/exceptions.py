@@ -1,2 +1,18 @@
 class LIException(Exception):
-    pass
+    """There was an ambiguous exception that occurred while handling your
+    request."""
+
+
+class DocTypeException(LIException):
+    """The provided document type is invalid.
+    """
+
+
+class DocIDException(LIException):
+    """The provided document ID is invalid.
+    """
+
+
+class QueryParameterException(LIException):
+    """The provided query parameter is invalid.
+    """

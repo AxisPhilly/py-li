@@ -1,31 +1,38 @@
 import unittest
 
 import li
-from li.exceptions import LIException
+from li.exceptions import LIException, DocTypeException
+from li.exceptions import DocIDException, QueryParameterException
+
 
 class LIAPITestSequence(unittest.TestCase):
 
     def setup(self):
         pass
 
-    def test_for_doc_id_for_get_document(self):
-        """Functions that retrieve singular documents
-        require the ID parameter
+    def test_for_valid_document_id(self):
+        """Tests that an invalid doc_id throws
+        an exception
         """
-        with self.assertRaises(TypeError):
+        with self.assertRaises(DocIDException):
             li.get_license({'a': 'b'})
 
     def test_for_valid_document_type(self):
-        """Tests that the provided document type is
-        valid
-        TODO: Can't this just be LIException instead of
-        li.utils.LIException
+        """Tests that an invalid doc_type
+        throws an exeception
         """
-        with self.assertRaises(LIException):
+        with self.assertRaises(DocTypeException):
             li.get_documents('foo')
 
-        with self.assertRaises(LIException):
+        with self.assertRaises(DocTypeException):
             li.get_document('foo', '000000')
+
+    def test_for_valid_query_parameter(self):
+        """Tests that an invalid query_parameter
+        throws an exception
+        """
+        with self.assertRaises(QueryParameterException):
+            li.get_permits(query_params={'foo': 'bar'})
 
     def test_get_appeal_hearing(self):
         """Returns details for a single appeal hearing
@@ -53,7 +60,6 @@ class LIAPITestSequence(unittest.TestCase):
 
         self.assertEqual(type(results), dict)
         self.assertTrue('appeal_id' in results.keys())
-
 
     def test_get_building_board_appeals(self):
         """Returns the first 1,000 most building board appeals
