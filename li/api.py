@@ -16,38 +16,45 @@ def get_document(doc_type, doc_id, related=False):
     doc_id = validate_doc_id(doc_id, doc_type)
 
     # Build the API URL to request
-    url = construct_url("%s(%s)" % (doc_type, doc_id), {}, None)
+    url = construct_url("%s(%s)" % (doc_type, doc_id), {}, None, False)
 
     # Make a call to the API with the provided URL
-    results = invoke_api(url)
+    response = invoke_api(url)
 
     # the $expand parameters results in bad responses
     # so we get each primary deferred/related entity
     # by making a making a request to the supplied url
     if related:
-        results = get_related(results)
+        response = get_related(response)
 
-    return results
+    return response
 
 
-def get_documents(doc_type, query_params={}, sql=None):
+def get_documents(doc_type, query_params={}, sql=None, count=False):
     """
     Invoke a GET request to the API for a set of documents
 
     :doc_type: String containing the type of document to retrieve.
-    :query_params: (optional) Dictionary with accepted query parameters. TODO: Check for accepted parameters
+    :query_params: (optional) Dictionary with accepted query parameters.
     :sql: (optional) String containing ODATA SQL statement for $filter parameter.
             Only used when retrieving multiple documents.
+    :count: (optional) Boolean indicating if a total count of the requested
+            documents should be returned along with the results. A more logical
+            proxy for $inlinecount='allpages'
     """
+    # Make sure the provided doc_type is a valid doc_type
     validate_doc_type(doc_type)
 
+    # Make sure the keys in query_params are valid
     validate_query_params(query_params)
 
-    url = construct_url(doc_type, query_params, sql)
+    # Build the API URL to request
+    url = construct_url(doc_type, query_params, sql, count)
 
-    results = invoke_api(url)
+    # Make a call to the API with the provided URL
+    response = invoke_api(url)
 
-    return results
+    return response
 
 
 # Convience functions to get a single or multiples documents

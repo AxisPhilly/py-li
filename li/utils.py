@@ -53,33 +53,52 @@ def invoke_api(url):
     r = requests.get(url)
     results = r.json()
 
+    response = process_results(results)
+
+    return response
+
+
+def process_results(results):
+    response = {}
+
+    try:
+        response['count_all'] = int(results['d']['__count'])
+    except:
+        response['count_all'] = None
+
     if 'error' in results.keys():
-        return {'error': results}
+        response['error'] = results
+        response['results'] = None
     elif type(results['d']) is list:
-        return results['d']
+        response['results'] = results['d']
     elif 'results' in results['d'].keys():
-        return results['d']['results']
+        response['results'] = results['d']['results']
     else:
-        return results['d']
+        response['results'] = results['d']
+
+    return response
 
 
-def get_related(results):
+def get_related(response):
     """Make calls to the 'deferred'/related document
     types contained in the provided results object
     """
-    deferred_urls = get_deferred_urls(results)
+    deferred_urls = get_deferred_urls(response['results'])
 
     for entity, url in deferred_urls.items():
         r = requests.get(url + '?$format=json')
         related = r.json()
-        results[entity] = related['d']
+        response['results'][entity] = related['d']
 
-    return results
+    return response
 
 
-def construct_url(doc_type, query_params, sql):
+def construct_url(doc_type, query_params, sql, count):
     """Build a URL to query the API
     """
+    if count is True:
+        query_params['inlinecount'] = 'allpages'
+
     f_query_params = construct_params(query_params)
 
     if sql:

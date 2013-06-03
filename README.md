@@ -23,7 +23,9 @@ Developers:
 
 Get the 1,000 most recent permits
 
-    li.get_permits()
+    response = li.get_permits()
+
+    print response['results']
 
     [
       {
