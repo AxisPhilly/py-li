@@ -1,4 +1,5 @@
 from . import utils
+from . import exceptions
 from .api import get_document, get_documents
 from .api import get_appeal_hearing, get_appeal_hearings
 from .api import get_building_board_appeal, get_building_board_appeals

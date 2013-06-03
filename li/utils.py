@@ -1,6 +1,8 @@
 import urllib
 import requests
 
+from .exceptions import LIException
+
 # API location info
 API_SERVER = 'http://services.phila.gov/'
 API_BASE = 'PhillyApi/Data/v0.7/Service.svc/'
@@ -28,10 +30,6 @@ DOC_TYPES = [
     'violationdetails',
     'zoningboardappeals',
 ]
-
-
-class LIException(Exception):
-    pass
 
 
 def validate_doc_type(doc_type):
