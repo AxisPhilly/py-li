@@ -1,5 +1,4 @@
 from .utils import *
-import requests
 
 
 def get_document(doc_type, doc_id, related=False):
@@ -10,45 +9,23 @@ def get_document(doc_type, doc_id, related=False):
     :ID: String unique identifier for document. Required when requesting single document.
     :related: Boolean indicating if related documents should be retrieved.
     """
-    check_doc_type(doc_type)
+    # Make sure the provided doc_type is a valid doc_type
+    validate_doc_type(doc_type)
 
-    # TODO: abstract into function
-    if doc_type not in ['locations', 'buildingboardappeals', 'appealhearings', 'lireviewboardappeals', 'violationdetails', 'zoningboardappeals']:
-        try:
-            doc_id = "\'" + doc_id + "\'"
-        except:
-            raise TypeError('The first parameter must be the document id and a string')
+    # Add single quotes to doc_id if necessary
+    doc_id = validate_doc_id(doc_id, doc_type)
 
+    # Build the API URL to request
     url = construct_url("%s(%s)" % (doc_type, doc_id), {}, None)
 
-    # TODO: check for error
-    """
-        {
-        error: {
-        code: "",
-        message: {
-        lang: "en-US",
-        value: "Resource not found for the segment 'buildingboardappeals'."
-        }
-        }
-        }
-    """
-
-    # TODO: abstract into function
-    r = requests.get(url)
-    results = r.json()
-    results = results['d']
+    # Make a call to the API with the provided URL
+    results = invoke_api(url)
 
     # the $expand parameters results in bad responses
     # so we get each primary deferred/related entity
     # by making a making a request to the supplied url
     if related:
-        deferred_urls = get_deferred_urls(results)
-
-        for entity, url in deferred_urls.items():
-            r = requests.get(url + '?$format=json')
-            related = r.json()
-            results[entity] = related['d']
+        results = get_related(results)
 
     return results
 
@@ -62,13 +39,11 @@ def get_documents(doc_type, query_params={}, sql=None):
     :sql: (optional) String containing ODATA SQL statement for $filter parameter.
             Only used when retrieving multiple documents.
     """
-    check_doc_type(doc_type)
+    validate_doc_type(doc_type)
 
     url = construct_url(doc_type, query_params, sql)
 
-    r = requests.get(url)
-    results = r.json()
-    results = results['d']['results']
+    results = invoke_api(url)
 
     return results
 

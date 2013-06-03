@@ -1,4 +1,5 @@
 import urllib
+import requests
 
 # API location info
 API_SERVER = 'http://services.phila.gov/'
@@ -33,11 +34,65 @@ class LIException(Exception):
     pass
 
 
-def check_doc_type(doc_type):
+def validate_doc_type(doc_type):
     try:
         DOC_TYPES.index(doc_type)
     except ValueError:
         raise LIException('The provided doc_type is invalid.')
+
+
+def validate_doc_id(doc_id, doc_type):
+    """Some of the document endpoints take the unique document id
+    as a number and not a string. For the ones that take a string,
+    we have to add a single quotes to the doc_id
+    """
+
+    # doc_types that don't want quoted doc_id
+    doc_types = [
+        'locations',
+        'buildingboardappeals',
+        'appealhearings',
+        'lireviewboardappeals',
+        'violationdetails',
+        'zoningboardappeals'
+    ]
+
+    if doc_type not in doc_types:
+        try:
+            doc_id = "\'" + doc_id + "\'"
+        except:
+            raise TypeError('The first parameter must be the document id and a string')
+
+    return doc_id
+
+
+def invoke_api(url):
+    """Make a call to the API with the provided URL
+    and return the results
+    """
+    r = requests.get(url)
+    results = r.json()
+
+    if 'error' in results.keys():
+        return {'error': results}
+    elif 'results' in results['d'].keys():
+        return results['d']['results']
+    else:
+        return results['d']
+
+
+def get_related(results):
+    """Make calls to the 'deferred'/related document
+    types contained in the provided results object
+    """
+    deferred_urls = get_deferred_urls(results)
+
+    for entity, url in deferred_urls.items():
+        r = requests.get(url + '?$format=json')
+        related = r.json()
+        results[entity] = related['d']
+
+    return results
 
 
 def construct_url(doc_type, query_params, sql):
