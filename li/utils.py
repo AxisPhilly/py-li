@@ -15,15 +15,17 @@ with the following entities 'locations', 'buildingboardappeals',
 'zoningboardappeals'. This is a list of all those entity names
 """
 DOC_TYPES = [
-    'locations',
-    'buildingboardappeals',
-    'zoningboardappeals',
-    'lireviewboardappeals',
     'appealhearings',
+    'buildingboardappeals',
     'cases',
-    'permits',
+    'hearingdates',
     'licenses',
-    'violationdetails'
+    'licensedcontractors',
+    'lireviewboardappeals',
+    'locations',
+    'permits',
+    'violationdetails',
+    'zoningboardappeals',
 ]
 
 
