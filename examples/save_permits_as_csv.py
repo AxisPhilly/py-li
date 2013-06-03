@@ -39,7 +39,7 @@ class DictUnicodeWriter(object):
 
 
 # Get the 1,000 most recent permits
-permits = li.get_permits()
+response = li.get_permits()
 
 """
 The related attributes are currently dicts that have
@@ -56,7 +56,7 @@ and set that has the value of buildingboardappeals, because can't
 write a dictionary to CSV, the url is the valuable part anyway
 """
 
-for permit in permits:
+for permit in response['results']:
     permit['buildingboardappeals'] = permit['buildingboardappeals']['__deferred']['uri']
     permit['locations'] = permit['locations']['__deferred']['uri']
     permit['zoningboardappeals'] = permit['zoningboardappeals']['__deferred']['uri']
@@ -73,8 +73,8 @@ for permit in permits:
 
 with open('permits.csv', 'wb') as f:
     # write header row
-    dict_writer = DictUnicodeWriter(f, permits[0].keys())
+    dict_writer = DictUnicodeWriter(f, response['results'][0].keys())
     dict_writer.writeheader()
 
     # write permits
-    dict_writer.writerows(permits)
+    dict_writer.writerows(response['results'])
