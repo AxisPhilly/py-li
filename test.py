@@ -1,7 +1,7 @@
-import li
-from li.exceptions import LIException
 import unittest
 
+import li
+from li.exceptions import LIException
 
 class LIAPITestSequence(unittest.TestCase):
 

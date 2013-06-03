@@ -2,34 +2,7 @@ import urllib
 import requests
 
 from .exceptions import LIException
-
-# API location info
-API_SERVER = 'http://services.phila.gov/'
-API_BASE = 'PhillyApi/Data/v0.7/Service.svc/'
-
-# Default parameters applied to queries
-DEFAULT_PARAMS = {
-    '$format': 'json'  # Changing this to XML will break things
-}
-
-"""Names of keys that contain URLs to more details for requests.
-For example, a permit may have additional information available
-with the following entities 'locations', 'buildingboardappeals',
-'zoningboardappeals'. This is a list of all those entity names
-"""
-DOC_TYPES = [
-    'appealhearings',
-    'buildingboardappeals',
-    'cases',
-    'hearingdates',
-    'licenses',
-    'licensedcontractors',
-    'lireviewboardappeals',
-    'locations',
-    'permits',
-    'violationdetails',
-    'zoningboardappeals',
-]
+from .settings import *
 
 
 def validate_doc_type(doc_type):
@@ -45,7 +18,7 @@ def validate_doc_id(doc_id, doc_type):
     we have to add a single quotes to the doc_id
     """
 
-    # doc_types that don't want quoted doc_id
+    # doc_types that don't want singled-quoted doc_id
     doc_types = [
         'locations',
         'buildingboardappeals',
