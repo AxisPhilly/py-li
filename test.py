@@ -1,5 +1,5 @@
 import li
-from li.utils import LIException
+from li.exceptions import LIException
 import unittest
 
 
@@ -18,13 +18,13 @@ class LIAPITestSequence(unittest.TestCase):
     def test_for_valid_document_type(self):
         """Tests that the provided document type is
         valid
-        TODO: Can't this just be LIException instead of 
+        TODO: Can't this just be LIException instead of
         li.utils.LIException
         """
-        with self.assertRaises(li.utils.LIException):
+        with self.assertRaises(LIException):
             li.get_documents('foo')
 
-        with self.assertRaises(li.utils.LIException):
+        with self.assertRaises(LIException):
             li.get_document('foo', '000000')
 
     def test_get_appeal_hearing(self):
