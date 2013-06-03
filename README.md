@@ -8,11 +8,12 @@ Users:
 
     pip install py-li
 
-Developers
+Developers:
 
     git clone git://github.com/axisphilly/py-li.git
     cd py-li
     mkvirtualenv venv
+    source venv/bin/activate
     pip install -r requirements.txt
     python test.py
 
