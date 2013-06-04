@@ -8,7 +8,7 @@ A thin Python wrapper for the City of Philadelphia [Licenses and Inspections API
 
 ### Usage
 
-The L&I API allows you to get details about L&I documents on a document by document basis, or in bulk. It's worth looking over the [documentation](http://phlapi.com/licenseapi.html) to see what document types and document details are available before diving in. Also, the API is based on Version 2.0 of the [ODATA API Protocol](http://www.odata.org/). The documentation is available [here](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#Introduction). 
+The L&I API allows you to get details about L&I documents on a document by document basis, or in bulk. It's worth looking over the [documentation](http://phlapi.com/licenseapi.html) to see what document types and document details are available before diving in. Also, the API is based on Version 2.0 of the [ODATA API Protocol](http://www.odata.org/). The documentation is available [here](http://www.odata.org/documentation/odata-v2-documentation). 
 
 To get started, import the `py-li` library:
 
