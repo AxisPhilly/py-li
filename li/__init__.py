@@ -14,4 +14,4 @@ from .api import get_permit, get_permits
 from .api import get_violation, get_violations
 from .api import get_zoning_board_appeal, get_zoning_board_appeals
 
-__version__ = '0.0.7'
+__version__ = '0.0.8'
