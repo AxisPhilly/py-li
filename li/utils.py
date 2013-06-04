@@ -105,7 +105,7 @@ def process_results(results):
         response['count'] = None
 
     if 'error' in results.keys():
-        response['error'] = results
+        response['error'] = results['error']
         response['results'] = None
     elif type(results['d']) is list:
         response['results'] = results['d']

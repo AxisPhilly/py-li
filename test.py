@@ -334,6 +334,16 @@ class LITestSequence(unittest.TestCase):
 
         self.assertTrue(response['count'] is None)
 
+    def test_api_error(self):
+        """Passing a bogus query to the API should
+        give us an error message stored at response['error']
+        """
+        sql = 'a bunch of stuff'
+
+        response = li.get_permits(filter=sql)
+
+        self.assertTrue('error' in response)
+
 
 if __name__ == '__main__':
     unittest.main()
