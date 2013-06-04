@@ -84,7 +84,7 @@ If you make a bad request, the error message from the API is passed along and st
       File "<stdin>", line 1, in <module>
     TypeError: object of type 'NoneType' has no len()
     >>> response['error']
-    {u'error': {u'message': {u'lang': u'en-US', u'value': u"No property 'just' exists in type 'Philagov.Data.PlanPhillyModel.licenses' at position 0."}, u'code': u''}}
+    {u'message': {u'lang': u'en-US', u'value': u"No property 'just' exists in type 'Philagov.Data.PlanPhillyModel.licenses' at position 0."}, u'code': u''}}
 
 **Single Document**
 
