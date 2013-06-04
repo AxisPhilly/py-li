@@ -7,6 +7,9 @@ from .settings import *
 
 
 def validate_doc_type(doc_type):
+    """Make sure the provided doc_type is
+    supported
+    """
     try:
         DOC_TYPES.index(doc_type)
     except ValueError:
@@ -18,79 +21,24 @@ def validate_doc_id(doc_id, doc_type):
     as a number and not a string. For the ones that take a string,
     we have to add a single quotes to the doc_id
     """
-
-    # doc_types that don't want singled-quoted doc_id
-    doc_types = [
-        'locations',
-        'buildingboardappeals',
-        'appealhearings',
-        'lireviewboardappeals',
-        'violationdetails',
-        'zoningboardappeals'
-    ]
-
-    if doc_type not in doc_types:
+    if doc_type not in NUMBER_DOC_TYPE:
         try:
             doc_id = "\'" + doc_id + "\'"
-        except:
+        except TypeError:
             raise DocIDException
 
     return doc_id
 
 
 def validate_query_params(query_params):
+    """Make sure all of the provide query_params
+    are supported
+    """
     for k in query_params.keys():
         try:
             SUPPORTED_PARAMS.index(k)
         except ValueError:
             raise QueryParameterException(k + ' is not a supported query parameter.')
-
-
-def invoke_api(url):
-    """Make a call to the API with the provided URL
-    and return the results
-    """
-    r = requests.get(url)
-    results = r.json()
-
-    response = process_results(results)
-
-    return response
-
-
-def process_results(results):
-    response = {}
-
-    try:
-        response['count_all'] = int(results['d']['__count'])
-    except:
-        response['count_all'] = None
-
-    if 'error' in results.keys():
-        response['error'] = results
-        response['results'] = None
-    elif type(results['d']) is list:
-        response['results'] = results['d']
-    elif 'results' in results['d'].keys():
-        response['results'] = results['d']['results']
-    else:
-        response['results'] = results['d']
-
-    return response
-
-
-def get_related(response):
-    """Make calls to the 'deferred'/related document
-    types contained in the provided results object
-    """
-    deferred_urls = get_deferred_urls(response['results'])
-
-    for entity, url in deferred_urls.items():
-        r = requests.get(url + '?$format=json')
-        related = r.json()
-        response['results'][entity] = related['d']
-
-    return response
 
 
 def construct_url(doc_type, query_params, sql, count):
@@ -137,6 +85,56 @@ def apply_default_params(query_params):
             query_params[k] = v
 
     return query_params
+
+
+def invoke_api(url):
+    """Make a call to the API with the provided URL
+    and return the results
+    """
+    r = requests.get(url)
+    results = r.json()
+
+    response = process_results(results)
+
+    return response
+
+
+def process_results(results):
+    """Construct the request response into a
+    slightly more intuitive structure
+    """
+    response = {}
+
+    try:
+        response['count'] = int(results['d']['__count'])
+    except:
+        response['count'] = None
+
+    if 'error' in results.keys():
+        response['error'] = results
+        response['results'] = None
+    elif type(results['d']) is list:
+        response['results'] = results['d']
+    elif 'results' in results['d'].keys():
+        response['results'] = results['d']['results']
+    else:
+        response['results'] = results['d']
+
+    return response
+
+
+def get_related(response):
+    """Make calls to the 'deferred'/related document
+    types contained in the provided results object
+    """
+    deferred_urls = get_deferred_urls(response['results'])
+
+    for entity, url in deferred_urls.items():
+        r = requests.get(url + '?$format=json')
+        related = r.json()
+        response['results'][entity] = related['d']
+
+    return response
 
 
 def get_deferred_urls(results):

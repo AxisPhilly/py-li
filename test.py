@@ -314,7 +314,7 @@ class LIAPITestSequence(unittest.TestCase):
         """
         response = li.get_permits(query_params={'inlinecount': 'allpages'})
 
-        self.assertTrue(response['count_all'] is not None)
+        self.assertTrue(response['count'] is not None)
 
     def test_count_param_true(self):
         """Count is a convienent way to specify the
@@ -324,8 +324,8 @@ class LIAPITestSequence(unittest.TestCase):
         # if count is True, count should be set to a number
         response = li.get_permits(count=True)
 
-        self.assertTrue(response['count_all'] is not None)
-        self.assertTrue(type(response['count_all']) is int)
+        self.assertTrue(response['count'] is not None)
+        self.assertTrue(type(response['count']) is int)
 
     def test_count_param_false(self):
         """Count is a convienent way to specify the
@@ -336,11 +336,11 @@ class LIAPITestSequence(unittest.TestCase):
         # return value of count should be None
         response = li.get_permits(count=False)
 
-        self.assertTrue(response['count_all'] is None)
+        self.assertTrue(response['count'] is None)
 
         response = li.get_permits()
 
-        self.assertTrue(response['count_all'] is None)
+        self.assertTrue(response['count'] is None)
 
 
 if __name__ == '__main__':

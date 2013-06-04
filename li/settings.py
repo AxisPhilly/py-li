@@ -15,7 +15,7 @@ DEFAULT_PARAMS = {
 SUPPORTED_PARAMS = [
     #'expand',  # Expand currently breaks the API, so we disable it for now
     'filter',
-    #'format',  # Disabled. If format is anything but JSON, everything breaks
+    'format',
     'inlinecount',  # Can also set count=True when making get_documents call
     'orderby',
     #'select',  # Disabled for now, unclear if it works
@@ -36,4 +36,14 @@ DOC_TYPES = [
     'permits',
     'violationdetails',
     'zoningboardappeals',
+]
+
+# Document types that don't want a singled-quoted doc_id
+NUMBER_DOC_TYPE = [
+    'locations',
+    'buildingboardappeals',
+    'appealhearings',
+    'lireviewboardappeals',
+    'violationdetails',
+    'zoningboardappeals'
 ]
