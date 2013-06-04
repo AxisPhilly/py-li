@@ -1,13 +1,16 @@
 from .utils import *
 
 
-def get_document(doc_type, doc_id, related=False):
+def get_document(doc_type, doc_id, **kwargs):
     """
-    Invoke a GET request to the API for a single document
+    Invoke a GET request to the API for a single document.
 
-    :doc_type: String containing the type of document to retrieve.
-    :ID: String unique identifier for document. Required when requesting single document.
-    :related: Boolean indicating if related documents should be retrieved.
+    Returns a dict with details of the document available
+    at the 'results' key
+
+    :doc_type: String. Contains the type of document to retrieve.
+    :doc_id: String. Unique identifier for document.
+    :related: Boolean. Indicates if related documents should be retrieved.
     """
     # Make sure the provided doc_type is a valid doc_type
     validate_doc_type(doc_type)
@@ -16,7 +19,7 @@ def get_document(doc_type, doc_id, related=False):
     doc_id = validate_doc_id(doc_id, doc_type)
 
     # Build the API URL to request
-    url = construct_url("%s(%s)" % (doc_type, doc_id), {}, None, False)
+    url = construct_url("%s(%s)" % (doc_type, doc_id), **kwargs)
 
     # Make a call to the API with the provided URL
     response = invoke_api(url)
@@ -24,32 +27,38 @@ def get_document(doc_type, doc_id, related=False):
     # the $expand parameters results in bad responses
     # so we get each primary deferred/related entity
     # by making a making a request to the supplied url
-    if related:
+    if 'related' in kwargs and kwargs['related'] is True:
         response = get_related(response)
 
     return response
 
 
-def get_documents(doc_type, query_params={}, sql=None, count=False):
+def get_documents(doc_type, **kwargs):
     """
-    Invoke a GET request to the API for a set of documents
+    Invoke a GET request to the API for a set of documents.
 
-    :doc_type: String containing the type of document to retrieve.
-    :query_params: (optional) Dictionary with accepted query parameters.
-    :sql: (optional) String containing ODATA SQL statement for $filter parameter.
-            Only used when retrieving multiple documents.
-    :count: (optional) Boolean indicating if a total count of the requested
-            documents should be returned along with the results. A more logical
-            proxy for $inlinecount='allpages'
+    Returns a dict with following keys:
+        results: list of documents with their details
+        count: if count=True, count of total documents
+        error: dict with error information passed along from API response
+
+    :top: (optional) Int or String. Limits the returned results to the set value.
+    :filter: (optional) String. An ODATA SQL *WHERE* statement.
+    :count: (optional) Boolean. If set to `True`, the response will have a `count` key that
+                        holds the total number of documents available through the API for
+                        the requested document type.
+    :skip: (optional) Int or String. Skips X number of documents, and returns
+                        documents starting from there.
+    :orderby: (optiona) String. Sort the results by the provided field.
     """
     # Make sure the provided doc_type is a valid doc_type
     validate_doc_type(doc_type)
 
     # Make sure the keys in query_params are valid
-    validate_query_params(query_params)
+    #validate_query_params(query_params)
 
     # Build the API URL to request
-    url = construct_url(doc_type, query_params, sql, count)
+    url = construct_url(doc_type, **kwargs)
 
     # Make a call to the API with the provided URL
     response = invoke_api(url)
@@ -58,8 +67,8 @@ def get_documents(doc_type, query_params={}, sql=None, count=False):
 
 
 # Convience functions to get a single or multiples documents
-# for each document type supported by the API
-# In alphabetical order by document type
+# for each document type supported by the API.
+# In alphabetical order by document type:
 
 def get_appeal_hearing(doc_id, **kwargs):
 

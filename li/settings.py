@@ -4,19 +4,19 @@ API_BASE = 'PhillyApi/Data/v0.7/Service.svc/'
 
 # Default parameters applied to queries
 # The API wants the parameters to start with
-# a $. This library accepts them without the
-# $ (to make things simpler), then adds the
-# $ when creating the query string.
+# a '$'. This library accepts them without the
+# '$' (to make things simpler), then adds the
+# '$' when creating the query string.
 DEFAULT_PARAMS = {
     'format': 'json'  # Changing this to XML will break things
 }
 
-# Supported URL parameters
-SUPPORTED_PARAMS = [
-    #'expand',  # Expand currently breaks the API, so we disable it for now
+# Supported URL parameters that need to have a '$' prepended to them
+QUERY_PARAMS = [
+    #'expand',  # Expand currently breaks the API, so we'll disable it for now
     'filter',
     'format',
-    'inlinecount',  # Can also set count=True when making get_documents call
+    'inlinecount',  # Can also use count=True, which is a little more intuitive
     'orderby',
     #'select',  # Disabled for now, unclear if it works
     'skip',

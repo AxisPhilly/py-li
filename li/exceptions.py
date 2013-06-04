@@ -11,8 +11,3 @@ class DocTypeException(LIException):
 class DocIDException(LIException):
     """The provided document ID is invalid.
     """
-
-
-class QueryParameterException(LIException):
-    """The provided query parameter is invalid.
-    """

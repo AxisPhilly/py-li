@@ -1,11 +1,10 @@
 import unittest
 
 import li
-from li.exceptions import LIException, DocTypeException
-from li.exceptions import DocIDException, QueryParameterException
+from li.exceptions import DocTypeException, DocIDException
 
 
-class LIAPITestSequence(unittest.TestCase):
+class LITestSequence(unittest.TestCase):
 
     def setup(self):
         pass
@@ -26,13 +25,6 @@ class LIAPITestSequence(unittest.TestCase):
 
         with self.assertRaises(DocTypeException):
             li.get_document('foo', '000000')
-
-    def test_for_valid_query_parameter(self):
-        """Tests that an invalid query_parameter
-        throws an exception
-        """
-        with self.assertRaises(QueryParameterException):
-            li.get_permits(query_params={'foo': 'bar'})
 
     def test_get_appeal_hearing(self):
         """Returns details for a single appeal hearing
@@ -290,7 +282,7 @@ class LIAPITestSequence(unittest.TestCase):
         """
         sql = "application_type eq 'ZP_ZONING'"
 
-        response = li.get_permits(sql=sql)
+        response = li.get_permits(filter=sql)
 
         for result in response['results']:
             self.assertEqual(result['application_type'], 'ZP_ZONING')
@@ -299,20 +291,20 @@ class LIAPITestSequence(unittest.TestCase):
         """The $top query parameter limits the request results
         to the number value of $top
         """
-        response = li.get_permits(query_params={'top': 10})
+        response = li.get_permits(top=10)
         self.assertEqual(len(response['results']), 10)
 
-        response = li.get_licenses(query_params={'top': '140'})
+        response = li.get_licenses(top=140)
         self.assertEqual(len(response['results']), 140)
 
-        response = li.get_contractors(query_params={'top': 0})
+        response = li.get_contractors(top=0)
         self.assertEqual(len(response['results']), 0)
 
     def test_inlinecount_query_param(self):
         """$inlinecount=allpages adds a '__count' key to the
         results with the total count of documents
         """
-        response = li.get_permits(query_params={'inlinecount': 'allpages'})
+        response = li.get_permits(inlinecount='allpages')
 
         self.assertTrue(response['count'] is not None)
 

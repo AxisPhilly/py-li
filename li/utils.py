@@ -1,8 +1,7 @@
 import urllib
 import requests
 
-from .exceptions import LIException, DocTypeException
-from .exceptions import DocIDException, QueryParameterException
+from .exceptions import DocTypeException, DocIDException
 from .settings import *
 
 
@@ -30,27 +29,22 @@ def validate_doc_id(doc_id, doc_type):
     return doc_id
 
 
-def validate_query_params(query_params):
-    """Make sure all of the provide query_params
-    are supported
-    """
-    for k in query_params.keys():
-        try:
-            SUPPORTED_PARAMS.index(k)
-        except ValueError:
-            raise QueryParameterException(k + ' is not a supported query parameter.')
-
-
-def construct_url(doc_type, query_params, sql, count):
+def construct_url(doc_type, **kwargs):
     """Build a URL to query the API
     """
-    if count is True:
+    # Construct a dict of just the ODATA query parameters
+    query_params = {}
+
+    for arg in kwargs:
+        if arg in QUERY_PARAMS:
+            query_params[arg] = kwargs[arg]
+
+    # Count isn't a real query param, but better than inlinecount=allpages
+    # We let user say count=True, then add inlinecount=allpages for them
+    if 'count' in kwargs and kwargs['count'] is True:
         query_params['inlinecount'] = 'allpages'
 
     f_query_params = construct_params(query_params)
-
-    if sql:
-        f_query_params += '&$filter=' + urllib.quote_plus(sql)
 
     url = API_SERVER + API_BASE + doc_type + f_query_params
 
