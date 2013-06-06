@@ -308,6 +308,15 @@ class LITestSequence(unittest.TestCase):
 
         self.assertTrue(response['count'] is not None)
 
+    def test_expand_query_param(self):
+        """$expand retrieves related document details. Only
+        works for locations at the moment. API throws a
+        SQL error otherwise
+        """
+        response = li.get_permits(expand='locations')
+
+        self.assertTrue('street_name' in response['results'][0]['locations'])
+
     def test_count_param_true(self):
         """Count is a convienent way to specify the
         $inlinecount query param with 'allpages' as the value

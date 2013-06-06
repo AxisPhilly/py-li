@@ -13,7 +13,7 @@ DEFAULT_PARAMS = {
 
 # Supported URL parameters that need to have a '$' prepended to them
 QUERY_PARAMS = [
-    #'expand',  # Expand currently breaks the API, so we'll disable it for now
+    'expand',  # Setting expand to anything but locations breaks the API
     'filter',
     'format',
     'inlinecount',  # Can also use count=True, which is a little more intuitive

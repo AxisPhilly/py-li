@@ -43,6 +43,8 @@ def get_documents(doc_type, **kwargs):
         error: dict with error information passed along from API response
 
     :top: (optional) Int or String. Limits the returned results to the set value.
+    :expand: (optional) String. Retrieves the related documents associated with the requested document.
+                        Note: Currently, setting this to anything but `locations` breaks the API.
     :filter: (optional) String. An ODATA SQL *WHERE* statement.
     :count: (optional) Boolean. If set to `True`, the response will have a `count` key that
                         holds the total number of documents available through the API for

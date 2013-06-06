@@ -21,6 +21,7 @@ The API is accessed through `li` by two types of methods: those that get multipl
 The methods that return multiple documents accept the following parameters:
 
 - **top**: (optional) Int or String. Limits the returned results to the set value. [ODATA documentation for $top](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#43_Top_System_Query_Option_top).
+- **expand**: (optional) String. Retrieves the related documents associated with the requested document. **Note: Currently, setting this to anything but `locations` breaks the API.** [ODATA documentation for $expand](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#43_Expand_System_Query_Option_expand).
 - **filter**: (optional) String. An ODATA SQL *WHERE* statement. [ODATA documentation for $filter](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#45_Filter_System_Query_Option_filter).
 - **count**: (optional) Boolean. If set to `True`, the response will have a `count` key that holds the total number of documents available through the API for the requested document type. [ODATA documentation for $inlinecount](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#49_Inlinecount_System_Query_Option_inlinecount)
 - **skip**: (optional) Int or String. Skips X number of documents, and returns documents starting from there. [ODATA document for $skip](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#44_Skip_System_Query_Option_skip)
