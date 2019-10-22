@@ -20,7 +20,7 @@ setup(
     ],
     install_requires=[
         'argparse==1.2.1',
-        'requests==1.2.3',
+        'requests==2.20.0',
         'wsgiref==0.1.2'
     ]
 )
